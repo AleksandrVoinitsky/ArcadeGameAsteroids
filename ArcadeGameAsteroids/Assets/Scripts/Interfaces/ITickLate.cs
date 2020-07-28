@@ -1,0 +1,4 @@
+﻿interface ITickLate
+{
+    void TickLate();
+}

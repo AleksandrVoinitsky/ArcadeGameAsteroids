@@ -1,0 +1,4 @@
+﻿interface ITick
+{
+    void Tick();
+}

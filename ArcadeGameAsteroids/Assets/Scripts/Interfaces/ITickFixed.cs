@@ -1,0 +1,4 @@
+﻿interface ITickFixed
+{
+    void TickFixed();
+}
