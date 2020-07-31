@@ -208,13 +208,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a38bd1013a016a4db176ac3a31e638d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   Audio:
   - {fileID: 8300000, guid: 3c654211117fc0346938d86021d88ee9, type: 3}
   Rotation: 0
   AngleSpeed: 1
   Axeleration: 500
   MaxMoveSpeed: 500
-  type: 1
   BulletLifeTime: 1
 --- !u!65 &1799835394456806689
 BoxCollider:

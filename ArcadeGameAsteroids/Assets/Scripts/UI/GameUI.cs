@@ -4,11 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Core;
 
-public class GameUI : MonoBehaviour
+public class GameUI : MonoBehaviour 
 {
     private int LifeCountUi = 3;
     public GameObject ImageParent;
     public Text ScoreText;
+    public int AsteroidsAmount;
     public GameObject LifeImage;
     private List<GameObject> ImageLifeTimeList;
     public void Init()
@@ -22,7 +23,8 @@ public class GameUI : MonoBehaviour
 
     public void UpdateScoreUI(int Score)
     {
-        ScoreText.text = Score.ToString();
+        ScoreText.text = Score.ToString() + "                                                         " +
+            "asteroids amount - " + AsteroidsAmount;
     }
 
     public void UpdateLifeCount(int lifeCount)

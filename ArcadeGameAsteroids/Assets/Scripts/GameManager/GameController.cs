@@ -27,7 +27,12 @@ public sealed class GameController : MonoBehaviour
     private int asteroidsCount;
     private int startAsteroidCount;
 
+    private int asteroidCounter = 0;
+
+    public float timerTime;
+
     private GameObject[] asteroids;
+    private Timer flagTimer;
 
     public GameState state { get; private set; }
 
@@ -113,6 +118,8 @@ public sealed class GameController : MonoBehaviour
 
         startAsteroidCount = gameManager.StartAsteroidsCount;
         score = 0;
+        asteroidCounter = startAsteroidCount * 7;
+        gameUi.AsteroidsAmount = asteroidCounter;
         UpdateScore(score);
         lifeCount = gameManager.StartLifeCount;
         gameUi.UpdateLifeCount(lifeCount);
@@ -121,12 +128,15 @@ public sealed class GameController : MonoBehaviour
 
         inputManager.GetInput().SetActive(true);
 
+        timerManager.DeleteTimer(flagTimer);
         DeadUfo(0);
 
         player.SetActive(true);
         ship.ResetObject();
         ship.Rotation = 0;
         ship.Blink();
+
+        
     }
 
     private void CreatePools()
@@ -143,16 +153,21 @@ public sealed class GameController : MonoBehaviour
             pool.Despawn(PoolType.Ateroids, asteroids[i]);
         }
         asteroidsCount = 0;
+        asteroidCounter = 0;
     }
 
     private void NextLevel()
     {
+        state = GameState.Start;
         startAsteroidCount++;
         Timer nextLevelTimer = timerManager.CreateTimer(2f, () =>
         {
             SpawnAsteroids(startAsteroidCount, gameManager.BigAsteroidPrefab, GetRandomAsteroidPosition());
         });
         Level++;
+        asteroidCounter = startAsteroidCount * 7;
+        UpdateScore(score);
+        state = GameState.Process;
     }
 
     public void TakeLife()
@@ -181,6 +196,7 @@ public sealed class GameController : MonoBehaviour
         state = GameState.Score;
         gameCanvas.SetActive(false);
         lobbyCanvas.SetActive(true);
+        lobbyMenu.ScoreText.text = "score " + score;
         player.SetActive(false);
         DeadUfo(0);
         EnteringGameMenu();
@@ -194,20 +210,25 @@ public sealed class GameController : MonoBehaviour
         }
     }
 
-    private GameObject CreateAsteroid(GameObject type, Vector3 pos)
+    public GameObject CreateAsteroid(GameObject type, Vector3 pos)
     {
         GameObject tempAteroid = pool.Spawn(PoolType.Ateroids, type, pos,
                 new Quaternion(Random.Range(0, 360), Random.Range(0, 360), Random.Range(0, 360), 0));
-        asteroidsCount++;
-
+        AddAsteroid(1);
         return tempAteroid;
     }
 
-    public void RemoveAsteroid(int score) 
+    public void AddAsteroid(int count)
     {
-        asteroidsCount--;
-        UpdateScore(score);
+        asteroidsCount += count;
+    }
 
+    public void RemoveAsteroid(int score, GameObject obj) 
+    {
+        pool.Despawn(PoolType.Ateroids, obj);
+        AddAsteroid(-1);
+        asteroidCounter--;
+        UpdateScore(score);
         if (asteroidsCount == 0)
         {
             NextLevel();
@@ -217,6 +238,7 @@ public sealed class GameController : MonoBehaviour
     public void UpdateScore(int count)
     {
         score += count;
+        gameUi.AsteroidsAmount = asteroidCounter;
         gameUi.UpdateScoreUI(score);
     }
 
@@ -303,12 +325,20 @@ public sealed class GameController : MonoBehaviour
         ufo.ResetObject();
         Ufo.SetActive(false);
         ufo.isDead = true;
-        AttackUfo(); 
+        if (state == GameState.Process)
+        {
+            StartTimer(Random.Range(gameManager.MinAppearanceUFO, gameManager.MaxAppearanceUFO));
+        }
     }
 
     public void AttackUfo() 
     {
-        StartCoroutine(Attack());
+        if (state == GameState.Process)
+        {
+            ufo.StartTimer(2f);
+            Ufo.SetActive(true);
+            ufo.SetUfoPosition();
+        }
     }
 
     public void Quit()
@@ -318,19 +348,12 @@ public sealed class GameController : MonoBehaviour
 
     public void SetInput(InputType type)
     {
-            inputManager.SetInputType(type);
+        inputManager.SetInputType(type);
     }
 
-    IEnumerator Attack()
+    public void StartTimer(float time)
     {
-        yield return new WaitForSeconds(Random.Range(gameManager.MinAppearanceUFO,gameManager.MaxAppearanceUFO));
-        if(state == GameState.Process)
-        {
-            ufo.StartTimer(2f);
-            Ufo.SetActive(true);
-            ufo.SetUfoPosition();
-            ufo.SummonsUfo();
-        }
-        
-    } 
+        timerTime = time;
+        flagTimer = timerManager.CreateTimer(time, () => { AttackUfo(); });
+    }
 }

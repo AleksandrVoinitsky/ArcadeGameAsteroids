@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class BigAsteroid : Asteroid, IPoolable
 {
-    public override void OnDespawn()
+
+    public void OnCollisionEnter(Collision collision)
     {
-        if (gameManager.GetGameState() == GameState.Process)
+        PlaySound(source, Audio[0], collision.impulse.magnitude);
+
+        if (collision.transform.tag != "Asteroid" && !isDead)
         {
-            gameManager.CreateAsteroid(2, gameManager.MidSateroidPrefab, transform.position);
+            isDead = true;
+            Despawn(gameManager.MidSateroidPrefab);
         }
-        base.OnDespawn();
-
     }
-
-    
 }

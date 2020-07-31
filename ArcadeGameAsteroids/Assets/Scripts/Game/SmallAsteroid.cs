@@ -4,9 +4,15 @@ using UnityEngine;
 
 public class SmallAsteroid : Asteroid, IPoolable
 {
-   public override void OnDespawn()
+    public void OnCollisionEnter(Collision collision)
     {
-        base.OnDespawn();
+        PlaySound(source, Audio[0], collision.impulse.magnitude);
+
+        if (collision.transform.tag != "Asteroid" && !isDead)
+        {
+            isDead = true;
+            Despawn();
+        }
     }
 }
     

@@ -220,11 +220,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e97ae1f5dbfd904d883dd8493f3eaea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 1
   Audio:
   - {fileID: 8300000, guid: 634bdff5fc4b3ba4fb732cab83f8daa4, type: 3}
   Rotation: 0
   AngleSpeed: 500
-  Axeleration: 50
-  MaxMoveSpeed: 50
-  isDead: 1
+  Axeleration: 2
+  MaxMoveSpeed: 2
   Score: 200

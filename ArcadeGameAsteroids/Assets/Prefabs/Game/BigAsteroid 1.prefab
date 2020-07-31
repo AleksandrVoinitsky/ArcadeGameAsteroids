@@ -110,7 +110,7 @@ Rigidbody:
   m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 4
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!82 &772977762817997427
 AudioSource:
@@ -220,11 +220,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0707f8e6232ce054b81ff5e4610acbe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDead: 0
   Audio:
   - {fileID: 8300000, guid: 4ae793da70cd85c47953ba7af9110ed7, type: 3}
   Rotation: 360
-  AngleSpeed: 100
+  AngleSpeed: 500
   Axeleration: 5
   MaxMoveSpeed: 10
-  type: 0
   Score: 20

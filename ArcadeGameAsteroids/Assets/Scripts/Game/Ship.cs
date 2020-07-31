@@ -35,10 +35,10 @@ public class Ship : ObjectScene, ITick, ITickFixed
     public void TickFixed()
     {
         SpeedLimit(body, MaxMoveSpeed);
-        AssignRotation(Rotation);
+        AssignRotationSmooth(Rotation);
     }
 
-    public void ShipControl(InputKeys direction, float angle = -1) //
+    public void ShipControl(InputKeys direction, float angle = -1) 
     {
         if (direction == InputKeys.up) { Move(transform.forward, Axeleration); }
 

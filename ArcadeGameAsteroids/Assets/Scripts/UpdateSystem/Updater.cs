@@ -25,7 +25,6 @@ namespace Core
 
 			if (updateble is ITickLate)
 				mngUpdate.ticksLate.Add(updateble as ITickLate);
-
 		}
 
 		public void RemoveFrom(object updateble)
@@ -40,7 +39,6 @@ namespace Core
 
 			if (updateble is ITickLate)
 				mngUpdate.ticksLate.Remove(updateble as ITickLate);
-
 		}
 
 		public void Tick()

@@ -65,13 +65,27 @@ public abstract class ObjectScene : MonoBehaviour
 
     public virtual void AssignRotation(float angle)
     {
-        if (Rotation > 360) Rotation = 0;
-        else if (Rotation < 0) Rotation = 360;
+        CheckCorrectRotation();
+        Quaternion target = Quaternion.Euler(0, angle, 0);
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, target,AngleSpeed);
+    }
 
+    public virtual void AssignRotationSmooth(float angle)
+    {
+        CheckCorrectRotation();
         Quaternion target = Quaternion.Euler(0, angle, 0);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, target, Time.deltaTime * AngleSpeed);
     }
-    
+
+    public virtual void CheckCorrectRotation()
+    {
+        if (Rotation > 0 || Rotation < 360)
+        {
+            if (Rotation > 360) Rotation = Rotation - 360;
+            else if (Rotation < 0) Rotation = Rotation + 360;
+        }
+    }
+
     public virtual float BoundsCalculate(GameObject obj)
     {
         return obj.GetComponent<MeshFilter>().sharedMesh.bounds.size.x/2;

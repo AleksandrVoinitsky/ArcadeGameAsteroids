@@ -11,6 +11,8 @@ public class LobbyMenu : MonoBehaviour
     public GameObject ChangeInput;
     public GameObject Exit;
 
+    public Text ScoreText;
+
 
     private Text changeButtonText;
     private GameManager gameManager;
@@ -24,6 +26,7 @@ public class LobbyMenu : MonoBehaviour
     {
         gameManager = CoreTools.GetManager<GameManager>();
         changeButtonText = ChangeInput.GetComponentInChildren<Text>();
+        ScoreText.text = "";
     }
 
     public void OnEnable()

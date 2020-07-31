@@ -74,6 +74,11 @@ namespace Core
             controller.SpawnAsteroids(num ,type ,pos);
         }
 
+        public GameObject CreateAsteroid(GameObject type, Vector3 pos)
+        {
+            return controller.CreateAsteroid(type, pos);
+        }
+
         public GameState GetGameState()
         {
             return controller.state;
@@ -99,9 +104,9 @@ namespace Core
             controller.Quit();
         }
 
-        public void RemoveAsteroid(int score)
+        public void RemoveAsteroid(int score, GameObject obj)
         {
-            controller.RemoveAsteroid(score);
+            controller.RemoveAsteroid(score, obj);
         }
 
         public void NewGame()
@@ -122,6 +127,11 @@ namespace Core
         public void SetInput(InputType type)
         {
             controller.SetInput(type);
+        }
+
+        public void AddAsteroid(int count)
+        {
+            controller.AddAsteroid(count);
         }
     }
 }
